@@ -20,8 +20,14 @@ namespace WebAPI.Controllers
         [HttpGet("Children/{Id}")]
         public ActionResult<List<Node>> Children(Guid Id)
         {
-            //todo
-            return null;
+            var nodes = _nodeService.ListChildren(Id);
+
+            if (nodes == null)
+            {
+                return Conflict();
+            }
+
+            return nodes;
         }
 
         [HttpGet("Parents/{Id}")]

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using WebAPI.DAL;
+using WebAPI.Helpers;
 using WebAPI.Models;
 using WebAPI.Services.Interface;
 using WebAPI.ViewModels;
@@ -38,9 +39,10 @@ namespace WebAPI.Services
             return node.Id;
         }
 
-        public List<Node> ListChildren(Guid parentId)
+        public List<Node> ListChildren(Guid id)
         {
-            throw new NotImplementedException();
+            var nodes = _context.Set<Node>().SelectManyRecursive(x => x.SubNodes).Select(x => x).ToList();
+            return nodes;
         }
 
         public List<Node> ListParents(Guid childId)
