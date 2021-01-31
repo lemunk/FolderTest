@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using WebAPI.Models;
+using WebAPI.Services.Interface;
 using WebAPI.ViewModels;
 
 namespace WebAPI.Controllers
@@ -10,6 +11,12 @@ namespace WebAPI.Controllers
     [ApiController]
     public class NodeController : ControllerBase
     {
+        private readonly INodeService _nodeService;
+        public NodeController(INodeService nodeService)
+        {
+            _nodeService = nodeService;
+        }
+
         [HttpGet("Children/{Id}")]
         public ActionResult<List<Node>> Children(Guid Id)
         {

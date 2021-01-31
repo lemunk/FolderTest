@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WebAPI.DAL;
+using WebAPI.Services;
+using WebAPI.Services.Interface;
 
 namespace WebAPI
 {
@@ -22,6 +24,7 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDBContext>(options => options.UseSqlite(Configuration.GetConnectionString("cs")));
+            services.AddScoped<INodeService, NodeService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
