@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using WebAPI.DAL;
-using WebAPI.Helpers;
 using WebAPI.Models;
 using WebAPI.Services.Interface;
 using WebAPI.ViewModels;
@@ -50,9 +49,15 @@ namespace WebAPI.Services
             return nodes;
         }
 
-        public List<Node> ListParents(Guid childId)
+        public List<Node> ListParents(string name)
         {
-            throw new NotImplementedException();
+            var source = _context.Node.Where(x => x.Name.ToLower() == name.ToLower()).ToList();
+            var nodes = new List<Node>();
+            foreach (var node in source)
+            {
+                nodes.AddRange(SearchParents(node));
+            }
+            return nodes;
         }
 
         private bool PathAlreadyExists(string path)
@@ -78,6 +83,19 @@ namespace WebAPI.Services
                 }
             }
             return childeren;
+        }
+
+        private List<Node> SearchParents(Node node)
+        {
+            var parents = new List<Node>();
+
+            var parent = _context.Set<Node>().FirstOrDefault(x => x.Id == node.ParentId);
+            if (parent != null)
+            {
+                parents.Add(parent);
+                SearchParents(parent);
+            }
+            return parents;
         }
     }
 }

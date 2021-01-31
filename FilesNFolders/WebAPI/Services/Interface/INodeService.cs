@@ -11,6 +11,6 @@ namespace WebAPI.Services.Interface
 
         List<Node> ListChildren(Guid parentId);
 
-        List<Node> ListParents(Guid childId);
+        List<Node> ListParents(string name);
     }
 }

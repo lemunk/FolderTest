@@ -30,11 +30,16 @@ namespace WebAPI.Controllers
             return nodes;
         }
 
-        [HttpGet("Parents/{Id}")]
-        public ActionResult<List<Node>> Parents(Guid Id)
+        [HttpGet("Parents/{name}")]
+        public ActionResult<List<Node>> Parents(string name)
         {
-            //todo
-            return null;
+            var nodes = _nodeService.ListParents(name);
+
+            if (nodes == null)
+            {
+                return Conflict();
+            }
+            return nodes;
         }
 
         [HttpPost]
