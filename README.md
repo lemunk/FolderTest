@@ -15,3 +15,8 @@ More iteration is needed if this was a real world example such as
 -Test case setup (TDD could have been used possibly BDD)
 -Clean up of the json returns, probably use more viewmodels and restructure and ommit for better readability to the user.
 -More clean up of the swagger docs and better examples and return examples added
+
+Instructions:
+SQL lite had a fit, the folder path already needed to be implimented for migration to work. so Create the folder sturcture first.
+Swagger contains the format to use. access swagger at the root url e.g (localhost:1234)
+
