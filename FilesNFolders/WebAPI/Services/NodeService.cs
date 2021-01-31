@@ -41,7 +41,12 @@ namespace WebAPI.Services
 
         public List<Node> ListChildren(Guid id)
         {
-            var nodes = _context.Set<Node>().SelectManyRecursive(x => x.SubNodes).Select(x => x).ToList();
+            var nodez = _context.Set<Node>().Where(x => x.Id == id).ToList();
+            var nodes = new List<Node>();
+            foreach (var node in nodez)
+            {
+                nodes.AddRange(SearchChildren(node));
+            }
             return nodes;
         }
 
@@ -57,6 +62,22 @@ namespace WebAPI.Services
                 return true;
             }
             return false;
+        }
+
+        private List<Node> SearchChildren(Node node)
+        {
+            var childeren = new List<Node>();
+
+            var child = _context.Set<Node>().Where(x => x.ParentId == node.Id).ToList();
+            if (child.Count > 0)
+            {
+                foreach (var x in child)
+                {
+                    childeren.Add(x);
+                    SearchChildren(x);
+                }
+            }
+            return childeren;
         }
     }
 }
