@@ -34,12 +34,17 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] NodeViewModel nodeViewModel)
         {
-            //todo
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            return null;
+
+            var nodeId = _nodeService.CreateNode(nodeViewModel);
+            if (nodeId == null)
+            {
+                return NotFound();
+            }
+            return Created(nodeViewModel.Path, new { id = nodeId });
         }
     }
 }
